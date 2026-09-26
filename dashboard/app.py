@@ -1,7 +1,12 @@
+from dashboard.config import settings
+from dashboard.logging_config import configure_logging
+from dashboard.security import SecurityHeadersMiddleware
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pathlib import Path
 import json
+
+configure_logging()
 
 app = FastAPI(
     title="Cloud Economics Intelligence Platform",
@@ -525,4 +530,6 @@ if __name__ == "__main__":
         host="127.0.0.1",
         port=8080
     )
+
+
 

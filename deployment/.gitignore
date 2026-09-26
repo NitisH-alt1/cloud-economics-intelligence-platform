@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+deployment/secrets/
+__pycache__/
+.pytest_cache/
+.venv/
+*.log
