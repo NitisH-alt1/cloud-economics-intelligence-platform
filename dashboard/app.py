@@ -1,17 +1,41 @@
+from auth.connection_router import router as cloud_connection_router
+from auth.cloud_router import router as cloud_router
+from auth.connection_router import router as connection_router
+from auth.intelligence_router import router as intelligence_router
+
+from auth.project_router import router as project_router
+from auth.workspace_router import router as workspace_router
+from auth.router import router as auth_router
+from auth.account_router import router as account_router
+from database.init_db import init_db
 from dashboard.config import settings
 from dashboard.logging_config import configure_logging
 from dashboard.security import SecurityHeadersMiddleware
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pathlib import Path
 import json
 
 configure_logging()
 
+init_db()
+
 app = FastAPI(
     title="Cloud Economics Intelligence Platform",
     version="1.0.0"
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8090",
+        "http://127.0.0.1:8090",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
@@ -365,7 +389,7 @@ function renderCausalChain(data) {
             const arrow = document.createElement("div");
 
             arrow.className = "arrow";
-            arrow.textContent = "→";
+            arrow.textContent = "ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢";
 
             container.appendChild(arrow);
         }
@@ -533,3 +557,16 @@ if __name__ == "__main__":
 
 
 
+
+
+app.include_router(auth_router)
+app.include_router(account_router)
+
+app.include_router(project_router)
+app.include_router(workspace_router)
+
+
+app.include_router(cloud_router)
+app.include_router(connection_router)
+app.include_router(intelligence_router)
+app.include_router(cloud_connection_router)

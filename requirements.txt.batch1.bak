@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+httpx
+opentelemetry-distro
+opentelemetry-exporter-otlp
+opentelemetry-instrumentation-fastapi
+opentelemetry-instrumentation-httpx
+networkx
+requests
+networkx
+requests
+pandas
+numpy
+scikit-learn
+prometheus-client
+psutil
+prometheus-fastapi-instrumentator

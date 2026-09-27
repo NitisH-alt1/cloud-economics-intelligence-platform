@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Economics Intelligence Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, Arial, sans-serif;
+            background:
+                radial-gradient(circle at top right, #172554 0, transparent 35%),
+                #020617;
+            color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: min(1100px, 94%);
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .brand h1 {
+            font-size: 48px;
+            line-height: 1.05;
+            margin: 0 0 20px;
+        }
+
+        .brand h1 span {
+            color: #60a5fa;
+        }
+
+        .brand p {
+            color: #94a3b8;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 620px;
+        }
+
+        .features {
+            margin-top: 30px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .feature {
+            padding: 14px 16px;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .feature span {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.94);
+            border: 1px solid #334155;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 25px 70px rgba(0,0,0,.35);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .tab {
+            flex: 1;
+            border: 0;
+            background: transparent;
+            color: #94a3b8;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .tab.active {
+            color: #60a5fa;
+            border-bottom: 2px solid #60a5fa;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 7px;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border-radius: 9px;
+            border: 1px solid #334155;
+            background: #020617;
+            color: white;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #60a5fa;
+        }
+
+        button.submit {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: 0;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button.submit:hover {
+            background: #1d4ed8;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 11px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #052e16;
+            color: #86efac;
+        }
+
+        .error {
+            background: #450a0a;
+            color: #fca5a5;
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard-card {
+            padding: 22px;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            background: #020617;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 30px 0;
+            }
+
+            .brand h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <section class="brand">
+        <h1>
+            Cloud Economics<br>
+            <span>Intelligence Platform</span>
+        </h1>
+
+        <p>
+            Understand cloud cost increases by connecting
+            infrastructure cost, application telemetry,
+            service dependencies and causal candidate evidence.
+        </p>
+
+        <div class="features">
+            <div class="feature">
+                <strong>Cost Intelligence</strong>
+                <span>Identify where cloud spending is increasing.</span>
+            </div>
+
+            <div class="feature">
+                <strong>Causal Candidate Analysis</strong>
+                <span>Trace dependency and temporal evidence across services.</span>
+            </div>
+
+            <div class="feature">
+                <strong>Cost Attribution</strong>
+                <span>Attribute incremental cost across affected services.</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+
+        <div id="authBox">
+
+            <div class="tabs">
+                <button class="tab active" onclick="showLogin()">
+                    Login
+                </button>
+
+                <button class="tab" onclick="showSignup()">
+                    Create account
+                </button>
+            </div>
+
+            <div id="loginForm">
+                <h2>Welcome back</h2>
+
+                <label>Email</label>
+                <input id="loginEmail"
+                       type="email"
+                       placeholder="you@company.com">
+
+                <label>Password</label>
+                <input id="loginPassword"
+                       type="password"
+                       placeholder="••••••••">
+
+                <button class="submit" onclick="login()">
+                    Login
+                </button>
+
+                <div id="loginMessage" class="message"></div>
+            </div>
+
+            <div id="signupForm" style="display:none">
+                <h2>Create your workspace</h2>
+
+                <label>Full name</label>
+                <input id="signupName"
+                       type="text"
+                       placeholder="Your name">
+
+                <label>Work email</label>
+                <input id="signupEmail"
+                       type="email"
+                       placeholder="you@company.com">
+
+                <label>Password</label>
+                <input id="signupPassword"
+                       type="password"
+                       placeholder="Create a password">
+
+                <label>Organization</label>
+                <input id="signupOrganization"
+                       type="text"
+                       placeholder="Company or team name">
+
+                <button class="submit" onclick="signup()">
+                    Create account
+                </button>
+
+                <div id="signupMessage" class="message"></div>
+            </div>
+
+        </div>
+
+        <div id="dashboard" class="dashboard">
+
+            <h2>Cloud Economics Workspace</h2>
+
+            <p id="welcomeText"></p>
+
+            <div class="dashboard-card">
+                <strong>Organization</strong>
+                <p id="organizationText"></p>
+            </div>
+
+            <div class="dashboard-card">
+                <strong>Workspace status</strong>
+                <p>Authentication and tenant isolation are active.</p>
+            </div>
+
+            <button class="submit" onclick="logout()">
+                Sign out
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+const API = "";
+
+function showLogin() {
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("signupForm").style.display = "none";
+
+    document.querySelectorAll(".tab")[0].classList.add("active");
+    document.querySelectorAll(".tab")[1].classList.remove("active");
+}
+
+function showSignup() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("signupForm").style.display = "block";
+
+    document.querySelectorAll(".tab")[0].classList.remove("active");
+    document.querySelectorAll(".tab")[1].classList.add("active");
+}
+
+function showMessage(id, text, success=false) {
+    const element = document.getElementById(id);
+
+    element.textContent = text;
+    element.style.display = "block";
+
+    element.className =
+        "message " + (success ? "success" : "error");
+}
+
+async function signup() {
+
+    const body = {
+        email: document.getElementById("signupEmail").value,
+        password: document.getElementById("signupPassword").value,
+        full_name: document.getElementById("signupName").value,
+        organization_name:
+            document.getElementById("signupOrganization").value
+    };
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8081/api/auth/signup",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail || "Signup failed."
+            );
+        }
+
+        localStorage.setItem(
+            "access_token",
+            data.access_token
+        );
+
+        showWorkspace(data);
+
+    } catch (error) {
+
+        showMessage(
+            "signupMessage",
+            error.message
+        );
+    }
+}
+
+async function login() {
+
+    const body = {
+        email: document.getElementById("loginEmail").value,
+        password: document.getElementById("loginPassword").value
+    };
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8081/api/auth/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail || "Login failed."
+            );
+        }
+
+        localStorage.setItem(
+            "access_token",
+            data.access_token
+        );
+
+        showWorkspace(data);
+
+    } catch (error) {
+
+        showMessage(
+            "loginMessage",
+            error.message
+        );
+    }
+}
+
+async function showWorkspace(authData) {
+
+    const token = authData.access_token;
+
+    const response = await fetch(
+        "http://127.0.0.1:8081/api/account/me",
+        {
+            headers: {
+                "Authorization":
+                    "Bearer " + token
+            }
+        }
+    );
+
+    const account = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            account.detail || "Unable to load account."
+        );
+    }
+
+    document.getElementById("authBox").style.display = "none";
+    window.location.href = "/workspace";
+
+    document.getElementById("welcomeText").textContent =
+        "Welcome, " + account.full_name + ".";
+
+    document.getElementById("organizationText").textContent =
+        account.organization_id +
+        " · " +
+        account.role;
+}
+
+function logout() {
+
+    localStorage.removeItem("access_token");
+
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("authBox").style.display = "block";
+
+    showLogin();
+}
+
+async function restoreSession() {
+
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8081/api/account/me",
+            {
+                headers: {
+                    "Authorization":
+                        "Bearer " + token
+                }
+            }
+        );
+
+        if (!response.ok) {
+            localStorage.removeItem("access_token");
+            return;
+        }
+
+        const account = await response.json();
+
+        document.getElementById("authBox").style.display = "none";
+        window.location.href = "/workspace";
+
+        document.getElementById("welcomeText").textContent =
+            "Welcome, " + account.full_name + ".";
+
+        document.getElementById("organizationText").textContent =
+            account.organization_id +
+            " · " +
+            account.role;
+
+    } catch {
+        localStorage.removeItem("access_token");
+    }
+}
+
+restoreSession();
+
+</script>
+
+</body>
+</html>
+
+

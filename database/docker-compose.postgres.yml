@@ -1,0 +1,21 @@
+﻿services:
+  cca-postgres:
+    image: postgres:16
+    container_name: cca-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cloud_economics
+      POSTGRES_USER: cea_admin
+      POSTGRES_PASSWORD: cea_local_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - cca_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cea_admin -d cloud_economics"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  cca_postgres_data:

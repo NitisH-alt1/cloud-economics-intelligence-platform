@@ -1,7 +1,6 @@
 import os
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class Settings:
     app_name: str = os.getenv(
@@ -14,7 +13,7 @@ class Settings:
 
     cors_origins: str = os.getenv(
         "CORS_ORIGINS",
-        "http://localhost:8081,http://127.0.0.1:8081",
+        "http://localhost:8090,http://127.0.0.1:8090,http://localhost:8081,http://127.0.0.1:8081",
     )
 
     database_url: str = os.getenv("DATABASE_URL", "")
@@ -26,6 +25,5 @@ class Settings:
             for origin in self.cors_origins.split(",")
             if origin.strip()
         ]
-
 
 settings = Settings()

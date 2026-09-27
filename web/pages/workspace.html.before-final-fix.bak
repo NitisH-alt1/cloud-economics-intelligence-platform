@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Cloud Economics Workspace</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, Arial, sans-serif;
+    background: #020617;
+    color: #e2e8f0;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #0f172a;
+    border-right: 1px solid #1e293b;
+    padding: 25px 18px;
+}
+
+.logo {
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 35px;
+}
+
+.logo span {
+    color: #60a5fa;
+}
+
+.nav {
+    display: grid;
+    gap: 7px;
+}
+
+.nav button {
+    border: 0;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav button:hover,
+.nav button.active {
+    background: #1e293b;
+    color: #fff;
+}
+
+.main {
+    flex: 1;
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 27px;
+}
+
+.header p {
+    margin: 6px 0 0;
+    color: #64748b;
+}
+
+.logout {
+    border: 1px solid #334155;
+    background: transparent;
+    color: #cbd5e1;
+    padding: 9px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.card .label {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.card .value {
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.panel {
+    margin-top: 20px;
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.panel h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.hidden {
+    display: none;
+}
+
+.project-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #1e293b;
+}
+
+.create-row {
+    display: flex;
+    gap: 10px;
+}
+
+input,
+select {
+    flex: 1;
+    background: #020617;
+    color: white;
+    border: 1px solid #334155;
+    padding: 11px;
+    border-radius: 8px;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+    border: 0;
+    padding: 11px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.primary:hover {
+    background: #1d4ed8;
+}
+
+.status {
+    color: #94a3b8;
+    line-height: 1.7;
+}
+
+.cloud-account-card {
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    background: #020617;
+}
+
+.cloud-account-card strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.cloud-account-card div {
+    margin-top: 5px;
+    color: #94a3b8;
+}
+
+.cloud-account-card button {
+    margin-top: 10px;
+    border: 1px solid #334155;
+    background: transparent;
+    color: #cbd5e1;
+    padding: 8px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.cloud-account-card button:hover {
+    background: #1e293b;
+}
+
+#cloudAccountMessage {
+    color: #94a3b8;
+    min-height: 22px;
+    margin-top: 12px;
+}
+
+@media(max-width:900px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+<div class="logo">
+Cloud <span>Economics</span>
+</div>
+
+<div class="nav">
+
+<button class="active" onclick="showPage('overview',this)">
+Overview
+</button>
+
+<button onclick="showPage('projects',this)">
+Projects
+</button>
+
+<button onclick="showPage('cloud',this)">
+Cloud Accounts
+</button>
+
+<button onclick="showPage('cost',this)">
+Cost Intelligence
+</button>
+
+<button onclick="showPage('causal',this)">
+Causal Analysis
+</button>
+
+<button onclick="showPage('recommendations',this)">
+Recommendations
+</button>
+
+<button onclick="showPage('settings',this)">
+Settings
+</button>
+
+</div>
+
+</aside>
+
+<main class="main">
+
+<div class="header">
+
+<div>
+<h1 id="pageTitle">Overview</h1>
+<p id="orgText">Loading workspace...</p>
+</div>
+
+<button class="logout" onclick="logout()">
+Sign out
+</button>
+
+</div>
+
+
+<!-- OVERVIEW -->
+
+<section id="overview" class="page">
+
+<div class="cards">
+
+<div class="card">
+<div class="label">Projects</div>
+<div class="value" id="projectCount">0</div>
+</div>
+
+<div class="card">
+<div class="label">Cloud Accounts</div>
+<div class="value" id="cloudAccountCount">0</div>
+</div>
+
+<div class="card">
+<div class="label">Cost Increase</div>
+<div class="value">—</div>
+</div>
+
+<div class="card">
+<div class="label">Causal Candidates</div>
+<div class="value">—</div>
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>Workspace Status</h2>
+
+<p class="status">
+Your organization workspace is active.
+<br>
+Authentication and tenant isolation are enabled.
+<br>
+Connect a cloud account to begin real cloud cost analysis.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- PROJECTS -->
+
+<section id="projects" class="page hidden">
+
+<div class="panel">
+
+<h2>Projects</h2>
+
+<div class="create-row">
+
+<input
+id="projectName"
+placeholder="New project name">
+
+<button class="primary" onclick="createProject()">
+Create Project
+</button>
+
+</div>
+
+<div id="projectList"></div>
+
+</div>
+
+</section>
+
+
+<!-- CLOUD -->
+
+<section id="cloud" class="page hidden">
+
+<div class="panel">
+
+<h2>Cloud Accounts</h2>
+
+<div id="cloudAccountsList">
+    <p class="status">No cloud accounts connected yet.</p>
+</div>
+
+<form
+    id="cloudAccountForm"
+    style="display:grid;gap:10px;margin-top:16px;max-width:600px;"
+>
+
+    <select id="cloudProvider" required>
+
+        <option value="aws">
+            AWS
+        </option>
+
+        <option value="azure">
+            Azure
+        </option>
+
+        <option value="gcp">
+            Google Cloud
+        </option>
+
+    </select>
+
+    <input
+        id="cloudDisplayName"
+        type="text"
+        placeholder="Account display name"
+        required
+    >
+
+    <input
+        id="cloudExternalId"
+        type="text"
+        placeholder="Cloud account / subscription / project ID"
+        required
+    >
+
+    <input
+        id="cloudRegion"
+        type="text"
+        placeholder="Region (optional)"
+    >
+
+    <button
+        class="primary"
+        type="submit"
+    >
+        Add Cloud Account
+    </button>
+
+</form>
+
+<p id="cloudAccountMessage"></p>
+
+</div>
+
+</section>
+
+
+<!-- COST -->
+
+<section id="cost" class="page hidden">
+
+<div class="panel">
+
+<h2>Cost Intelligence</h2>
+
+<p class="status">
+This workspace will display cloud spending,
+cost anomalies, service-level cost changes
+and incremental cost attribution.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- CAUSAL -->
+
+<section id="causal" class="page hidden">
+
+<div class="panel">
+
+<h2>Causal Candidate Analysis</h2>
+
+<p class="status">
+The analysis engine evaluates temporal,
+dependency and anomaly evidence to identify
+candidate causal chains.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- RECOMMENDATIONS -->
+
+<section id="recommendations" class="page hidden">
+
+<div class="panel">
+
+<h2>Recommendations</h2>
+
+<p class="status">
+Engineering and FinOps recommendations will
+appear here after cost and telemetry data are
+connected.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="page hidden">
+
+<div class="panel">
+
+<h2>Organization Settings</h2>
+
+<p id="settingsText" class="status"></p>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script>
+
+const API_BASE = "http://127.0.0.1:8081";
+const token = localStorage.getItem("access_token");
+
+if (!token) {
+    window.location.href = "/";
+}
+
+
+const headers = {
+    "Authorization": "Bearer " + token,
+    "Content-Type": "application/json"
+};
+
+
+async function loadWorkspace() {
+
+    const response = await fetch(API_BASE + "/api/workspace/summary",
+        { headers }
+    );
+
+    if (!response.ok) {
+
+        localStorage.removeItem("access_token");
+
+        window.location.href = "/";
+
+        return;
+    }
+
+    const data = await response.json();
+
+    document.getElementById("orgText").textContent =
+        data.organization.id +
+        " · " +
+        data.organization.role;
+
+    document.getElementById("settingsText").textContent =
+        "Signed in as " +
+        data.user.name +
+        " (" +
+        data.user.email +
+        ")";
+
+    await loadProjects();
+
+    await loadCloudAccounts();
+}
+
+
+async function loadProjects() {
+
+    const response = await fetch(API_BASE + "/api/projects",
+        { headers }
+    );
+
+    if (!response.ok) {
+
+        document.getElementById("projectList").innerHTML =
+            '<p class="status">Unable to load projects.</p>';
+
+        return;
+    }
+
+    const projects = await response.json();
+
+    document.getElementById("projectCount").textContent =
+        projects.length;
+
+    const container =
+        document.getElementById("projectList");
+
+    container.innerHTML = "";
+
+    if (projects.length === 0) {
+
+        container.innerHTML =
+            '<p class="status">No projects yet.</p>';
+
+        return;
+    }
+
+    projects.forEach(project => {
+
+        const row =
+            document.createElement("div");
+
+        row.className = "project-row";
+
+        row.innerHTML =
+            "<strong>" +
+            project.name +
+            "</strong>" +
+            "<span>" +
+            project.slug +
+            "</span>";
+
+        container.appendChild(row);
+    });
+}
+
+
+async function createProject() {
+
+    const input =
+        document.getElementById("projectName");
+
+    const name =
+        input.value.trim();
+
+    if (!name) {
+
+        alert("Enter a project name.");
+
+        return;
+    }
+
+    const response = await fetch(API_BASE + "/api/projects",
+        {
+            method: "POST",
+            headers,
+
+            body: JSON.stringify({
+                name: name
+            })
+        }
+    );
+
+    const data =
+        await response.json();
+
+    if (!response.ok) {
+
+        alert(
+            data.detail ||
+            "Unable to create project."
+        );
+
+        return;
+    }
+
+    input.value = "";
+
+    await loadProjects();
+}
+
+
+function showPage(id, button) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.add("hidden");
+
+        });
+
+    document
+        .getElementById(id)
+        .classList.remove("hidden");
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(item => {
+
+            item.classList.remove("active");
+
+        });
+
+    button.classList.add("active");
+
+    document.getElementById("pageTitle").textContent =
+        button.textContent.trim();
+}
+
+
+function logout() {
+
+    localStorage.removeItem("access_token");
+
+    window.location.href = "/";
+}
+
+
+loadWorkspace();
+
+</script>
+
+<script src="/assets/cloud-accounts.js"></script>
+
+</body>
+</html>
