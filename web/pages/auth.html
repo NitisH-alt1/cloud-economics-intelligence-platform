@@ -224,6 +224,7 @@ document.querySelector(".auth-tabs").addEventListener("keydown", event => {
     setAuthMode(mode);
 });
 
+if (window.location.pathname === "/signup") showSignup();
 if (localStorage.getItem("access_token")) window.location.replace("/workspace");
 </script>
 

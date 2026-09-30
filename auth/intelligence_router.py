@@ -42,6 +42,20 @@ def _project(project_id: str, context: dict, db: Session) -> Project:
 
 
 def _ensure_demo_records(project: Project, db: Session):
+    # Cost, causal, anomaly, and recommendation endpoints can request the demo
+    # series at the same time. Serialize first-time seeding per project so
+    # concurrent PostgreSQL requests do not insert the same unique periods.
+    locked_project_id = db.scalar(
+        select(Project.id)
+        .where(
+            Project.id == project.id,
+            Project.organization_id == project.organization_id,
+        )
+        .with_for_update()
+    )
+    if locked_project_id is None:
+        raise HTTPException(status_code=404, detail="Project not found.")
+
     accounts = db.execute(select(CloudAccount).join(project_cloud_accounts, CloudAccount.id == project_cloud_accounts.c.cloud_account_id).where(project_cloud_accounts.c.project_id == project.id, CloudAccount.organization_id == project.organization_id).order_by(CloudAccount.created_at)).scalars().all()
     targets = accounts or [None]
     if accounts:
