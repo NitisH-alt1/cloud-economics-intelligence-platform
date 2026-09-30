@@ -1,7 +1,9 @@
+import json
+import os
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -52,3 +54,16 @@ def health():
         "status": "healthy",
         "service": "cloud-economics-public-web",
     }
+
+
+@app.get("/runtime-config.js", include_in_schema=False)
+def runtime_config():
+    # The static browser app gets its API origin from the website service's
+    # environment. An empty value keeps local development on the same-host:8081
+    # default in assets/api.js.
+    config = {"apiBaseUrl": os.getenv("API_BASE_URL", "").strip().rstrip("/")}
+    return Response(
+        f"window.CEA_CONFIG = {json.dumps(config)};",
+        media_type="application/javascript",
+        headers={"Cache-Control": "no-store"},
+    )

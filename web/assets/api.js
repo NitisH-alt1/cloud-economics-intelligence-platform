@@ -1,5 +1,6 @@
 (() => {
-    const apiBase = `${window.location.protocol}//${window.location.hostname}:8081`;
+    const configuredBase = window.CEA_CONFIG && window.CEA_CONFIG.apiBaseUrl;
+    const apiBase = configuredBase || `${window.location.protocol}//${window.location.hostname}:8081`;
 
     async function request(path, options = {}) {
         const headers = new Headers(options.headers || {});
