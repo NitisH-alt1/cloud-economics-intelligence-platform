@@ -304,12 +304,12 @@ Sign out
 
 <div class="card">
 <div class="label">Cost Increase</div>
-<div class="value">—</div>
+<div class="value" id="overviewCostIncrease">—</div>
 </div>
 
 <div class="card">
 <div class="label">Causal Candidates</div>
-<div class="value">—</div>
+<div class="value" id="overviewCandidateCount">—</div>
 </div>
 
 </div>
@@ -323,8 +323,9 @@ Your organization workspace is active.
 <br>
 Authentication and tenant isolation are enabled.
 <br>
-Connect a cloud account to begin real cloud cost analysis.
+Displayed intelligence comes from shared local analysis files. It is sample/estimated data, not cloud billing, and is not scoped to an individual project.
 </p>
+<p id="intelligenceSource" class="status">Loading local analysis status...</p>
 
 </div>
 
@@ -439,11 +440,33 @@ Create Project
 
 <h2>Cost Intelligence</h2>
 
-<p class="status">
-This workspace will display cloud spending,
-cost anomalies, service-level cost changes
-and incremental cost attribution.
-</p>
+<p class="status">Local sample analysis only. These resource-based estimates are not real cloud billing or provider spend.</p>
+<p id="costStatus" class="status">Loading cost analysis...</p>
+<div class="cards">
+    <div class="card">
+        <div class="label">Estimated Total Cost Increase</div>
+        <div class="value" id="totalCostIncrease">—</div>
+    </div>
+    <div class="card">
+        <div class="label">Estimate Model</div>
+        <div class="value" id="costModel">—</div>
+    </div>
+</div>
+<div style="overflow-x:auto;">
+    <table style="width:100%;text-align:left;margin-top:18px;">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Baseline Estimate</th>
+                <th>Current Estimate</th>
+                <th>Increase</th>
+                <th>Anomaly Score</th>
+                <th>Attribution Share</th>
+            </tr>
+        </thead>
+        <tbody id="costServiceRows"></tbody>
+    </table>
+</div>
 
 </div>
 
@@ -458,11 +481,40 @@ and incremental cost attribution.
 
 <h2>Causal Candidate Analysis</h2>
 
-<p class="status">
-The analysis engine evaluates temporal,
-dependency and anomaly evidence to identify
-candidate causal chains.
-</p>
+<p class="status">Local/sample candidate analysis. A candidate chain and score are evidence for investigation, not proof of causality.</p>
+<p id="causalStatus" class="status">Loading causal analysis...</p>
+<h3>Candidate chain</h3>
+<p id="causalChain" class="status">—</p>
+<p id="causalSummary" class="status"></p>
+<h3>Dependency candidates</h3>
+<div style="overflow-x:auto;">
+    <table style="width:100%;text-align:left;">
+        <thead>
+            <tr>
+                <th>Candidate cause</th>
+                <th>Affected service</th>
+                <th>Dependency</th>
+                <th>Anomaly strength</th>
+                <th>Propagation strength</th>
+                <th>Candidate score</th>
+            </tr>
+        </thead>
+        <tbody id="causalCandidateRows"></tbody>
+    </table>
+</div>
+<h3>Anomaly scores</h3>
+<div style="overflow-x:auto;">
+    <table style="width:100%;text-align:left;">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Metric</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody id="anomalyRows"></tbody>
+    </table>
+</div>
 
 </div>
 
@@ -478,9 +530,7 @@ candidate causal chains.
 <h2>Recommendations</h2>
 
 <p class="status">
-Engineering and FinOps recommendations will
-appear here after cost and telemetry data are
-connected.
+Not implemented yet.
 </p>
 
 </div>
@@ -555,6 +605,223 @@ async function loadWorkspace() {
     await loadProjects();
 
     await loadCloudAccounts();
+
+    await loadIntelligence();
+}
+
+
+async function fetchIntelligence(endpoint) {
+
+    const response = await fetch(
+        API_BASE + "/api/intelligence/" + endpoint,
+        { headers }
+    );
+
+    if (!response.ok) {
+        throw new Error("Unable to load " + endpoint + " analysis.");
+    }
+
+    return response.json();
+}
+
+
+function formatCurrency(value, currency) {
+
+    const amount = Number(value);
+
+    if (!Number.isFinite(amount)) {
+        return "—";
+    }
+
+    try {
+        return new Intl.NumberFormat(undefined, {
+            style: "currency",
+            currency: currency || "USD"
+        }).format(amount);
+    } catch (error) {
+        return amount.toFixed(2) + " " + (currency || "USD");
+    }
+}
+
+
+function appendCells(row, values) {
+
+    values.forEach(value => {
+        const cell = document.createElement("td");
+        cell.textContent = value == null ? "—" : String(value);
+        row.appendChild(cell);
+    });
+}
+
+
+function showEmptyRow(tbody, message, columnCount) {
+
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = columnCount;
+    cell.textContent = message;
+    row.appendChild(cell);
+    tbody.replaceChildren(row);
+}
+
+
+async function loadIntelligence() {
+
+    const endpoints = ["overview", "cost", "causal", "anomalies"];
+    const results = await Promise.allSettled(
+        endpoints.map(endpoint => fetchIntelligence(endpoint))
+    );
+    const data = {};
+
+    results.forEach((result, index) => {
+        if (result.status === "fulfilled") {
+            data[endpoints[index]] = result.value;
+        }
+    });
+
+    if (data.overview) {
+        renderIntelligenceOverview(data.overview);
+    } else {
+        document.getElementById("intelligenceSource").textContent =
+            "Local analysis overview is unavailable.";
+        document.getElementById("overviewCostIncrease").textContent = "Unavailable";
+        document.getElementById("overviewCandidateCount").textContent = "Unavailable";
+    }
+
+    if (data.cost) {
+        renderCostAnalysis(data.cost);
+    } else {
+        document.getElementById("costStatus").textContent =
+            "Cost analysis is unavailable.";
+        showEmptyRow(document.getElementById("costServiceRows"), "No cost data available.", 6);
+    }
+
+    if (data.causal) {
+        renderCausalAnalysis(data.causal);
+    } else {
+        document.getElementById("causalStatus").textContent =
+            "Causal analysis is unavailable.";
+        showEmptyRow(document.getElementById("causalCandidateRows"), "No candidate data available.", 6);
+    }
+
+    if (data.anomalies) {
+        renderAnomalyScores(data.anomalies);
+    } else {
+        showEmptyRow(document.getElementById("anomalyRows"), "Anomaly scores are unavailable.", 3);
+    }
+}
+
+
+function renderIntelligenceOverview(overview) {
+
+    const currency = overview.currency || "USD";
+    document.getElementById("overviewCostIncrease").textContent =
+        formatCurrency(overview.total_cost_increase, currency);
+    document.getElementById("overviewCandidateCount").textContent =
+        overview.causal_candidate_count ?? "—";
+    document.getElementById("projectCount").textContent =
+        overview.projects ?? "—";
+    document.getElementById("cloudAccountCount").textContent =
+        overview.cloud_accounts ?? "—";
+    document.getElementById("intelligenceSource").textContent =
+        "Analysis status: " + (overview.analysis_status || "unknown") +
+        " · Source: " + (overview.data_source || "unspecified") +
+        " · Local/sample data is shared and not project-scoped.";
+}
+
+
+function renderCostAnalysis(cost) {
+
+    const currency = cost.currency || "USD";
+    document.getElementById("costStatus").textContent =
+        "Source: local analysis · Resource-based estimates; not provider billing.";
+    document.getElementById("totalCostIncrease").textContent =
+        formatCurrency(cost.total_cost_increase, currency);
+    document.getElementById("costModel").textContent =
+        cost.model || "Unspecified";
+
+    const rows = document.getElementById("costServiceRows");
+    rows.replaceChildren();
+    const services = cost.services || {};
+    const entries = Object.entries(services);
+
+    if (!entries.length) {
+        showEmptyRow(rows, "No service cost estimates available.", 6);
+        return;
+    }
+
+    entries.forEach(([service, values]) => {
+        const row = document.createElement("tr");
+        appendCells(row, [
+            service,
+            formatCurrency(values.baseline_cost, currency),
+            formatCurrency(values.current_cost, currency),
+            formatCurrency(values.cost_increase, currency),
+            values.cost_anomaly_score,
+            values.attribution_share == null
+                ? "—"
+                : (Number(values.attribution_share) * 100).toFixed(2) + "%"
+        ]);
+        rows.appendChild(row);
+    });
+}
+
+
+function renderCausalAnalysis(causal) {
+
+    const chain = causal.chain || {};
+    const chainServices = chain.causal_chain || [];
+    document.getElementById("causalStatus").textContent =
+        "Source: local analysis · Candidate inference only; not definitive causality.";
+    document.getElementById("causalChain").textContent =
+        chainServices.length ? chainServices.join(" → ") : "No candidate chain available.";
+    document.getElementById("causalSummary").textContent =
+        "Candidate root: " + (chain.candidate_root_cause || "—") +
+        " · Dependency depth: " + (chain.dependency_depth ?? "—");
+
+    const rows = document.getElementById("causalCandidateRows");
+    rows.replaceChildren();
+    const candidates = causal.candidates || [];
+
+    if (!candidates.length) {
+        showEmptyRow(rows, "No causal candidates available.", 6);
+        return;
+    }
+
+    candidates.forEach(candidate => {
+        const row = document.createElement("tr");
+        appendCells(row, [
+            candidate.cause_service,
+            candidate.affected_service,
+            candidate.dependency,
+            candidate.anomaly_strength,
+            candidate.propagation_strength,
+            candidate.causal_candidate_score
+        ]);
+        rows.appendChild(row);
+    });
+}
+
+
+function renderAnomalyScores(anomalies) {
+
+    const rows = document.getElementById("anomalyRows");
+    rows.replaceChildren();
+    const entries = Object.entries(anomalies || {});
+    let rowCount = 0;
+
+    entries.forEach(([service, metrics]) => {
+        Object.entries(metrics || {}).forEach(([metric, score]) => {
+            const row = document.createElement("tr");
+            appendCells(row, [service, metric, score]);
+            rows.appendChild(row);
+            rowCount += 1;
+        });
+    });
+
+    if (!rowCount) {
+        showEmptyRow(rows, "No anomaly scores available.", 3);
+    }
 }
 
 
