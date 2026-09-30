@@ -10,6 +10,9 @@ from auth.cloud_schemas import (
 from auth.dependencies import get_current_context
 from database.db import get_db
 from database.models.cloud_account import CloudAccount
+from database.models.cloud_connection import CloudConnection
+from database.models.cost_record import CostRecord
+from database.models.project import project_cloud_accounts
 
 
 router = APIRouter(
@@ -121,6 +124,27 @@ def delete_cloud_account(
             detail="Cloud account not found.",
         )
 
+    affected_project_ids = db.scalars(
+        select(project_cloud_accounts.c.project_id).where(
+            project_cloud_accounts.c.cloud_account_id == account_id
+        )
+    ).all()
+    if affected_project_ids:
+        db.query(CostRecord).filter(
+            CostRecord.organization_id == organization_id,
+            CostRecord.project_id.in_(affected_project_ids),
+            CostRecord.source == "local-demo",
+        ).delete(synchronize_session=False)
+
+    db.query(CloudConnection).filter(
+        CloudConnection.organization_id == organization_id,
+        CloudConnection.cloud_account_id == account_id,
+    ).delete(synchronize_session=False)
+    db.execute(
+        project_cloud_accounts.delete().where(
+            project_cloud_accounts.c.cloud_account_id == account_id
+        )
+    )
     db.delete(account)
     db.commit()
 

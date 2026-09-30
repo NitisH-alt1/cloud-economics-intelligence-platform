@@ -1,14 +1,11 @@
-﻿from datetime import datetime, timedelta, timezone
-import os
-
+from datetime import datetime, timedelta, timezone
 from jose import jwt
 
-SECRET_KEY = os.getenv(
-    "JWT_SECRET_KEY",
-    "dev-only-change-this-secret"
+from auth.config import (
+    JWT_ALGORITHM as ALGORITHM,
+    JWT_EXPIRE_MINUTES,
+    JWT_SECRET_KEY as SECRET_KEY,
 )
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 
 def create_access_token(
@@ -16,7 +13,7 @@ def create_access_token(
     organization_id: str,
 ) -> str:
     expire = datetime.now(timezone.utc) + timedelta(
-        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+        minutes=JWT_EXPIRE_MINUTES
     )
 
     payload = {

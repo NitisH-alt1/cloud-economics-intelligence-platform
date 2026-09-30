@@ -10,7 +10,7 @@ The repository is the source of truth. Historical context below guides work but 
 
 - `analyzer/`: anomaly detection, dependency graphs, temporal/propagation analysis, scoring, cost attribution, pipeline.
 - `dashboard/app.py`: FastAPI API; `auth/` contains authentication, tenant, project, cloud-account, connection, and workspace routers.
-- `database/`: SQLAlchemy models and database setup. Existing entities include users, organizations, memberships, projects, cloud accounts, and cloud connections.
+- `database/`: SQLAlchemy models and database setup. Entities include users, organizations, memberships, projects, cloud accounts, cloud connections, project/cloud-account associations, and project-scoped cost records. Startup `create_all` initializes the added association and cost tables; it does not alter existing tables.
 - `web/`: website app, pages, and assets. `services/checkout`, `services/inventory`, and `services/payment` are instrumented microservices.
 - `data/`: sample/generated baselines, anomaly scores, failure scenario, trace, cost attribution, causal candidates, and causal chain.
 - `deployment/`: local launchers, deployment wiring, and security documentation. Root Docker/Prometheus/OpenTelemetry files define development infrastructure.
@@ -23,15 +23,17 @@ Use website `http://127.0.0.1:8090`, API `http://127.0.0.1:8081`, and PostgreSQL
 
 ## Product & API Context
 
-Existing routes include `/api/auth/signup`, `/api/auth/login`, `/api/account/me`, `/api/projects`, `/api/cloud-accounts`, `/api/cloud-connections`, and `/api/workspace/summary`; inspect router code for the full current API. JWT uses HS256 and password hashing uses PBKDF2-SHA256. Protected routes rely on authenticated user/organization context. Every tenant-owned read and write must enforce `organization_id` scope.
+Existing routes include `/api/auth/signup`, `/api/auth/login`, `/api/account/me`, `/api/projects`, `/api/cloud-accounts`, `/api/cloud-connections`, `/api/workspace/summary`, and project-scoped cost, anomaly, causal, recommendation, and cloud-account association routes; inspect router code for the full current API. JWT uses HS256 and password hashing uses PBKDF2-SHA256. Protected routes rely on authenticated user/organization context. Every tenant-owned read and write must enforce `organization_id` scope.
 
 Project descriptions are supported in the current model, schemas, API, and workspace UI (maximum 500 characters). A historical demo project is named “Cloud Economics Demo” with slug `cloud-economics-demo`; verify database state before assuming it exists locally. Cloud account records support AWS, Azure, and GCP. Connection routes are `GET/POST /api/cloud-connections` and `DELETE /api/cloud-connections/{connection_id}`. Current schema accepts `aws_role`, `azure_service_principal`, or `gcp_service_account`; the API creates a record with status `configured`, but this flow does not establish that provider credentials were validated. Never claim a live provider connection without actual verified authentication. Do not invent provider parameters.
 
 Sample analysis records a `payment → inventory → checkout` candidate chain with payment as candidate root. The cost example estimates increases of checkout 0, inventory 0.63, and payment 0.70 (total 1.33), with attribution shares about 0.4737 and 0.5263. Treat these as sample/model output, not live billing facts.
 
+Synthetic project costs are persisted in `cost_records`, are deterministic local demo estimates, and do not come from provider billing APIs. Connection records in `configured` state do not validate credentials; the local demonstration does not enable credential validation. Causal outputs remain model-derived candidates and are not proof of causality.
+
 ## Product Roadmap
 
-Remaining direction: associate projects with cloud accounts; represent and validate connection status; ingest synthetic/local spend first, then real AWS/Azure/GCP data through verified APIs; integrate cost intelligence and causal analysis; add recommendations, alerts/reports, billing, production deployment, public docs, legal/security documentation, and pricing. Do not rebuild completed foundations (deployment, auth, workspace, project CRUD/descriptions, cloud account/connection records, telemetry, or analysis) before inspecting current code.
+Remaining direction: validate connections only through implemented provider APIs; ingest real AWS/Azure/GCP data through verified APIs; add alerts/reports, billing, production deployment, public docs, legal/security documentation, and pricing. Do not rebuild completed foundations (deployment, auth, workspace, project CRUD/descriptions, project/cloud-account association, local demo costs, cloud account/connection records, telemetry, or analysis) before inspecting current code.
 
 ## Development & Safety Rules
 
@@ -53,6 +55,8 @@ Recent commit subjects are concise imperative summaries (for example, “Add pro
 ## Configuration & Security
 
 `.env.example` documents configuration; `.env` is ignored. Review `deployment/security/SECURITY.md` for security changes. Current source includes local database fallback configuration; inspect deployment/runtime configuration and avoid carrying development credentials into production. CORS currently allows `localhost:8090` and `127.0.0.1:8090`; security-header middleware exists. Do not broaden origins or weaken protected-route behavior without need.
+
+The API requires `JWT_SECRET_KEY` and `DATABASE_URL` when `APP_ENV=production`; development-only JWT and local PostgreSQL fallbacks are used outside production only. Configure these values through the runtime environment and never place secrets in frontend code.
 
 ## Handoff Provenance
 

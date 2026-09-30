@@ -1,56 +1,28 @@
-﻿# Cloud Economics Intelligence Platform
+# Cloud Economics Intelligence Platform
 
-## Overview
+## Current application
 
-Cloud Economics Intelligence Platform is an intelligent cloud-cost analysis system designed to identify anomalous cost behavior and trace potential contributing services across distributed application dependencies.
+The local website is served by `web.app:app` on port `8090`. It provides login, signup, and the authenticated workspace. The FastAPI application in `dashboard.app:app` serves the API on port `8081`. PostgreSQL is configured for host port `5433` by `database/docker-compose.postgres.yml`.
 
-The platform combines service dependency analysis, anomaly signals, temporal relationships, and causal candidate scoring to produce an explainable cost-attribution chain.
+The API includes organization-scoped authentication, projects, cloud-account records, connection records, project/account associations, and project-scoped cost and analysis routes. See the FastAPI OpenAPI page at `/docs` when the API is running.
 
-## Core Analysis
+## Data and analysis status
 
-The current analysis pipeline evaluates relationships such as:
+Project cost records currently contain deterministic local demo estimates, not provider billing data. Cloud-account records and connection records do not validate provider credentials or enable ingestion. Causal results are model-derived candidates for investigation, not proof of causality. Anomaly signals use the included analyzer sample data.
 
-Payment Service
-    ↓
-Inventory Service
-    ↓
-Checkout Service
+## Repository structure
 
-For a detected anomaly, the engine traces the dependency chain backward and identifies candidate root causes based on anomaly strength and propagation behavior.
+- `analyzer/` — anomaly detection, dependency graphs, causal candidate scoring, and cost attribution.
+- `auth/` — authentication, organization-scoped APIs, projects, cloud accounts, connections, and intelligence.
+- `dashboard/` — FastAPI API application, configuration, logging, and security middleware.
+- `database/` — SQLAlchemy models, initialization, and the local PostgreSQL Compose file.
+- `data/` — included sample inputs and analysis outputs.
+- `deployment/` — local launchers, wiring scripts, and security notes.
+- `services/` — instrumented checkout, inventory, and payment demo services.
+- `web/` — website routes, pages, styles, and browser assets.
 
-## Architecture
+The root `docker-compose.yml` defines the local observability and instrumented-service stack. PostgreSQL is started separately. The Compose host ports bind to loopback for local use.
 
-- FastAPI-based analysis and dashboard services
-- OpenTelemetry-based distributed telemetry
-- Dependency graph analysis
-- Temporal causal candidate analysis
-- Anomaly scoring
-- Cost attribution
-- Explainable causal-chain visualization
+## Production configuration
 
-## Current Status
-
-The platform currently provides:
-
-- Service dependency graph
-- Anomaly analysis
-- Causal candidate scoring
-- Root-cause candidate identification
-- Causal-chain visualization
-- REST API endpoints
-- Web dashboard
-
-## Research Position
-
-The system performs temporal causal candidate analysis rather than claiming definitive causal proof. Its objective is to provide explainable, measurable evidence for potential cost-driving events in distributed cloud environments.
-
-## Project Structure
-
-- services/ — distributed application services
-- collector/ — telemetry collection
-- nalyzer/ — anomaly, graph, causal, and scoring components
-- dashboard/ — analysis dashboard and API
-- data/ — analysis datasets and generated results
-- experiments/ — controlled experiments
-- 	ests/ — validation and evaluation
-- deployment/ — deployment configurations
+Production startup requires `DATABASE_URL` and `JWT_SECRET_KEY`. Configure them in the deployment environment; never commit secret values. The Render Blueprint leaves the database URL and production website origin for operator configuration and generates the JWT signing key.

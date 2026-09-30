@@ -5,268 +5,56 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Cloud Economics Workspace</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Inter, Arial, sans-serif;
-    background: #020617;
-    color: #e2e8f0;
-}
-
-.layout {
-    display: flex;
-    min-height: 100vh;
-}
-
-.sidebar {
-    width: 250px;
-    background: #0f172a;
-    border-right: 1px solid #1e293b;
-    padding: 25px 18px;
-}
-
-.logo {
-    font-size: 19px;
-    font-weight: 700;
-    margin-bottom: 35px;
-}
-
-.logo span {
-    color: #60a5fa;
-}
-
-.nav {
-    display: grid;
-    gap: 7px;
-}
-
-.nav button {
-    border: 0;
-    text-align: left;
-    padding: 12px 14px;
-    border-radius: 8px;
-    background: transparent;
-    color: #94a3b8;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.nav button:hover,
-.nav button.active {
-    background: #1e293b;
-    color: #fff;
-}
-
-.main {
-    flex: 1;
-    padding: 30px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 27px;
-}
-
-.header p {
-    margin: 6px 0 0;
-    color: #64748b;
-}
-
-.logout {
-    border: 1px solid #334155;
-    background: transparent;
-    color: #cbd5e1;
-    padding: 9px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-}
-
-.card {
-    background: #0f172a;
-    border: 1px solid #1e293b;
-    border-radius: 12px;
-    padding: 20px;
-}
-
-.card .label {
-    color: #64748b;
-    font-size: 13px;
-}
-
-.card .value {
-    font-size: 25px;
-    font-weight: 700;
-    margin-top: 10px;
-}
-
-.panel {
-    margin-top: 20px;
-    background: #0f172a;
-    border: 1px solid #1e293b;
-    border-radius: 12px;
-    padding: 22px;
-}
-
-.panel h2 {
-    margin-top: 0;
-    font-size: 18px;
-}
-
-.hidden {
-    display: none;
-}
-
-.project-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid #1e293b;
-}
-
-.create-row {
-    display: flex;
-    gap: 10px;
-}
-
-input,
-select {
-    flex: 1;
-    background: #020617;
-    color: white;
-    border: 1px solid #334155;
-    padding: 11px;
-    border-radius: 8px;
-}
-
-.primary {
-    background: #2563eb;
-    color: white;
-    border: 0;
-    padding: 11px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.primary:hover {
-    background: #1d4ed8;
-}
-
-.status {
-    color: #94a3b8;
-    line-height: 1.7;
-}
-
-.cloud-account-card {
-    padding: 15px;
-    margin-top: 10px;
-    border: 1px solid #1e293b;
-    border-radius: 10px;
-    background: #020617;
-}
-
-.cloud-account-card strong {
-    display: block;
-    margin-bottom: 6px;
-}
-
-.cloud-account-card div {
-    margin-top: 5px;
-    color: #94a3b8;
-}
-
-.cloud-account-card button {
-    margin-top: 10px;
-    border: 1px solid #334155;
-    background: transparent;
-    color: #cbd5e1;
-    padding: 8px 12px;
-    border-radius: 7px;
-    cursor: pointer;
-}
-
-.cloud-account-card button:hover {
-    background: #1e293b;
-}
-
-#cloudAccountMessage {
-    color: #94a3b8;
-    min-height: 22px;
-    margin-top: 12px;
-}
-
-@media(max-width:900px) {
-    .sidebar {
-        width: 190px;
-    }
-
-    .cards {
-        grid-template-columns: repeat(2,1fr);
-    }
-}
-
-</style>
+<link rel="stylesheet" href="/assets/platform.css">
 </head>
 
-<body>
+<body class="workspace-page">
 
 <div class="layout">
 
 <aside class="sidebar">
 
-<div class="logo">
-Cloud <span>Economics</span>
+<div class="logo brand-lockup">
+<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6.8 17.2h10.1a3.1 3.1 0 0 0 .4-6.2A5.4 5.4 0 0 0 7 9.8a3.7 3.7 0 0 0-.2 7.4Z" stroke="currentColor" stroke-width="1.7"/><path d="m9 14.8 2-2 1.5 1.5L15.8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+<span>Cloud <span>Economics</span></span>
 </div>
 
-<div class="nav">
+<nav class="nav" aria-label="Workspace">
 
-<button class="active" onclick="showPage('overview',this)">
+<button type="button" class="active" aria-current="page" data-page="overview" onclick="showPage('overview',this)">
 Overview
 </button>
 
-<button onclick="showPage('projects',this)">
+<button type="button" data-page="projects" onclick="showPage('projects',this)">
 Projects
 </button>
 
-<button onclick="showPage('cloud',this)">
+<button type="button" data-page="cloud" onclick="showPage('cloud',this)">
 Cloud Accounts
 </button>
 
-<button onclick="showPage('cost',this)">
+<button type="button" data-page="cost" onclick="showPage('cost',this)">
 Cost Intelligence
 </button>
 
-<button onclick="showPage('causal',this)">
+<button type="button" data-page="causal" onclick="showPage('causal',this)">
 Causal Analysis
 </button>
 
-<button onclick="showPage('recommendations',this)">
+<button type="button" data-page="anomalies" onclick="showPage('anomalies',this)">
+Anomalies
+</button>
+
+<button type="button" data-page="recommendations" onclick="showPage('recommendations',this)">
 Recommendations
 </button>
 
-<button onclick="showPage('settings',this)">
+<button type="button" data-page="settings" onclick="showPage('settings',this)">
 Settings
 </button>
 
-</div>
+</nav>
+<div class="sidebar-foot">Local analysis mode<br>Sample estimates · no provider billing feed</div>
 
 </aside>
 
@@ -277,9 +65,10 @@ Settings
 <div>
 <h1 id="pageTitle">Overview</h1>
 <p id="orgText">Loading workspace...</p>
+<label class="project-control" for="activeProject">Active project <select id="activeProject" onchange="selectProject(this.value)" aria-label="Active project"><option value="">Select a project</option></select></label>
 </div>
 
-<button class="logout" onclick="logout()">
+<button type="button" class="logout" onclick="logout()">
 Sign out
 </button>
 
@@ -303,8 +92,18 @@ Sign out
 </div>
 
 <div class="card">
-<div class="label">Cost Increase</div>
-<div class="value" id="overviewCostIncrease">—</div>
+<div class="label">Estimated Current Cost</div>
+<div class="value" id="overviewEstimatedCost">—</div>
+</div>
+
+<div class="card">
+<div class="label">Cost Change</div>
+<div class="value" id="overviewCostChange">—</div>
+</div>
+
+<div class="card">
+<div class="label">Anomalies</div>
+<div class="value" id="overviewAnomalyCount">—</div>
 </div>
 
 <div class="card">
@@ -314,18 +113,12 @@ Sign out
 
 </div>
 
-<div class="panel">
+<div class="panel" id="overviewPanel">
 
 <h2>Workspace Status</h2>
 
-<p class="status">
-Your organization workspace is active.
-<br>
-Authentication and tenant isolation are enabled.
-<br>
-Displayed intelligence comes from shared local analysis files. It is sample/estimated data, not cloud billing, and is not scoped to an individual project.
-</p>
-<p id="intelligenceSource" class="status">Loading local analysis status...</p>
+<p class="status">Displayed intelligence is project-scoped Local Demo Data based on deterministic estimates and existing analyzer samples. It is not provider billing.</p>
+<p id="intelligenceSource" class="status" aria-live="polite">Loading local analysis status…</p>
 
 </div>
 
@@ -336,27 +129,35 @@ Displayed intelligence comes from shared local analysis files. It is sample/esti
 
 <section id="projects" class="page hidden">
 
-<div class="panel">
+<div class="panel" id="projectsPanel">
 
 <h2>Projects</h2>
 
-<div class="create-row">
+<form id="projectForm" class="create-row">
 
+<label class="visually-hidden" for="projectName">Project name</label>
 <input
 id="projectName"
+type="text"
+minlength="2"
+maxlength="200"
+required
 placeholder="New project name">
 
+<label class="visually-hidden" for="projectDescription">Project description</label>
 <input
 id="projectDescription"
+maxlength="500"
 placeholder="Project description">
 
-<button class="primary" onclick="createProject()">
+<button class="primary" type="submit">
 Create Project
 </button>
 
-</div>
+</form>
+<p id="projectFormMessage" class="form-message" role="status" aria-live="polite"></p>
 
-<div id="projectList"></div>
+<div id="projectList" aria-live="polite"></div>
 
 </div>
 
@@ -367,19 +168,19 @@ Create Project
 
 <section id="cloud" class="page hidden">
 
-<div class="panel">
+<div class="panel" id="cloudPanel">
 
 <h2>Cloud Accounts</h2>
 
-<div id="cloudAccountsList">
+<div id="cloudAccountsList" aria-live="polite">
     <p class="status">No cloud accounts connected yet.</p>
 </div>
 
 <form
     id="cloudAccountForm"
-    style="display:grid;gap:10px;margin-top:16px;max-width:600px;"
 >
 
+    <label class="visually-hidden" for="cloudProvider">Cloud provider</label>
     <select id="cloudProvider" required>
 
         <option value="aws">
@@ -396,23 +197,31 @@ Create Project
 
     </select>
 
+    <label class="visually-hidden" for="cloudDisplayName">Account display name</label>
     <input
         id="cloudDisplayName"
         type="text"
+        minlength="2"
+        maxlength="120"
         placeholder="Account display name"
         required
     >
 
+    <label class="visually-hidden" for="cloudExternalId">Cloud account, subscription, or project ID</label>
     <input
         id="cloudExternalId"
         type="text"
+        minlength="2"
+        maxlength="200"
         placeholder="Cloud account / subscription / project ID"
         required
     >
 
+    <label class="visually-hidden" for="cloudRegion">Cloud region (optional)</label>
     <input
         id="cloudRegion"
         type="text"
+        maxlength="100"
         placeholder="Region (optional)"
     >
 
@@ -425,7 +234,7 @@ Create Project
 
 </form>
 
-<p id="cloudAccountMessage"></p>
+<p id="cloudAccountMessage" role="status" aria-live="polite"></p>
 
 </div>
 
@@ -436,40 +245,48 @@ Create Project
 
 <section id="cost" class="page hidden">
 
-<div class="panel">
+<div class="panel" id="costPanel">
 
 <h2>Cost Intelligence</h2>
 
-<p class="status">Local sample analysis only. These resource-based estimates are not real cloud billing or provider spend.</p>
-<p id="costStatus" class="status">Loading cost analysis...</p>
+<p class="status">Local demo estimates from the included sample cost records. No provider billing feed is connected.</p>
+<p id="costStatus" class="status" aria-live="polite">Loading cost analysis…</p>
 <div class="cards">
     <div class="card">
-        <div class="label">Estimated Total Cost Increase</div>
-        <div class="value" id="totalCostIncrease">—</div>
+        <div class="label">Estimated Cost (current period)</div>
+        <div class="value" id="totalEstimatedCost">—</div>
     </div>
     <div class="card">
-        <div class="label">Estimate Model</div>
-        <div class="value" id="costModel">—</div>
+        <div class="label">Change vs previous period</div>
+        <div class="value" id="costPercentageChange">—</div>
     </div>
 </div>
-<div style="overflow-x:auto;">
-    <table style="width:100%;text-align:left;margin-top:18px;">
+<div class="table-scroll">
+    <table class="data-table">
         <thead>
             <tr>
                 <th>Service</th>
-                <th>Baseline Estimate</th>
+                <th>Previous Estimate</th>
                 <th>Current Estimate</th>
-                <th>Increase</th>
-                <th>Anomaly Score</th>
-                <th>Attribution Share</th>
+                <th>Change</th>
+                <th>Cost Share</th>
             </tr>
         </thead>
         <tbody id="costServiceRows"></tbody>
     </table>
 </div>
+<h3>Daily cost trend</h3>
+<svg id="costTrendChart" class="trend-chart" viewBox="0 0 720 160" role="img" aria-label="Estimated daily cost trend from local demo data" focusable="false"><line class="chart-grid" x1="0" y1="25" x2="720" y2="25"></line><line class="chart-grid" x1="0" y1="80" x2="720" y2="80"></line><line class="chart-grid" x1="0" y1="135" x2="720" y2="135"></line><path class="chart-line" id="costTrendLine" d=""></path><circle class="chart-dot" id="costTrendDot" r="4" cx="0" cy="0" hidden></circle></svg>
+<p id="costTrend" class="trend-caption" aria-live="polite"></p>
+<h3>Provider breakdown</h3><div id="providerBreakdown" class="status"></div>
+<h3>Cloud account breakdown</h3><div id="accountBreakdown" class="status"></div>
 
 </div>
 
+</section>
+
+<section id="anomalies" class="page hidden">
+<div class="panel" id="anomalyPanel"><h2>Service Anomalies</h2><p class="status">Model-derived deviations from the included local baseline and failure sample. These are demo signals, not provider telemetry.</p><div id="anomalyList" class="status" aria-live="polite">Loading anomalies…</div></div>
 </section>
 
 
@@ -477,18 +294,18 @@ Create Project
 
 <section id="causal" class="page hidden">
 
-<div class="panel">
+<div class="panel" id="causalPanel">
 
 <h2>Causal Candidate Analysis</h2>
 
 <p class="status">Local/sample candidate analysis. A candidate chain and score are evidence for investigation, not proof of causality.</p>
 <p id="causalStatus" class="status">Loading causal analysis...</p>
 <h3>Candidate chain</h3>
-<p id="causalChain" class="status">—</p>
+<div id="causalChain" class="causal-chain" aria-label="Candidate service dependency chain"></div>
 <p id="causalSummary" class="status"></p>
 <h3>Dependency candidates</h3>
-<div style="overflow-x:auto;">
-    <table style="width:100%;text-align:left;">
+<div class="table-scroll">
+    <table class="data-table">
         <thead>
             <tr>
                 <th>Candidate cause</th>
@@ -502,9 +319,16 @@ Create Project
         <tbody id="causalCandidateRows"></tbody>
     </table>
 </div>
+<h3>Estimated cost change for affected services</h3>
+<div class="table-scroll">
+    <table class="data-table">
+        <thead><tr><th>Service</th><th>Estimated change</th></tr></thead>
+        <tbody id="causalCostRows"></tbody>
+    </table>
+</div>
 <h3>Anomaly scores</h3>
-<div style="overflow-x:auto;">
-    <table style="width:100%;text-align:left;">
+<div class="table-scroll">
+    <table class="data-table">
         <thead>
             <tr>
                 <th>Service</th>
@@ -525,13 +349,12 @@ Create Project
 
 <section id="recommendations" class="page hidden">
 
-<div class="panel">
+<div class="panel" id="recommendationsPanel">
 
 <h2>Recommendations</h2>
 
-<p class="status">
-Not implemented yet.
-</p>
+<p class="status">Generated deterministically from available Local Demo Data and existing analyzer sample results. No remediation is applied.</p>
+<div id="recommendationList" class="recommendation-list" aria-live="polite"><p class="state-message">Loading recommendations…</p></div>
 
 </div>
 
@@ -557,423 +380,10 @@ Not implemented yet.
 </div>
 
 
-<script>
+<script src="/assets/api.js"></script>
 
-const API_BASE = "http://127.0.0.1:8081";
-const token = localStorage.getItem("access_token");
 
-if (!token) {
-    window.location.href = "/";
-}
-
-
-const headers = {
-    "Authorization": "Bearer " + token,
-    "Content-Type": "application/json"
-};
-
-
-async function loadWorkspace() {
-
-    const response = await fetch(API_BASE + "/api/workspace/summary",
-        { headers }
-    );
-
-    if (!response.ok) {
-
-        localStorage.removeItem("access_token");
-
-        window.location.href = "/";
-
-        return;
-    }
-
-    const data = await response.json();
-
-    document.getElementById("orgText").textContent =
-        data.organization.id +
-        " · " +
-        data.organization.role;
-
-    document.getElementById("settingsText").textContent =
-        "Signed in as " +
-        data.user.name +
-        " (" +
-        data.user.email +
-        ")";
-
-    await loadProjects();
-
-    await loadCloudAccounts();
-
-    await loadIntelligence();
-}
-
-
-async function fetchIntelligence(endpoint) {
-
-    const response = await fetch(
-        API_BASE + "/api/intelligence/" + endpoint,
-        { headers }
-    );
-
-    if (!response.ok) {
-        throw new Error("Unable to load " + endpoint + " analysis.");
-    }
-
-    return response.json();
-}
-
-
-function formatCurrency(value, currency) {
-
-    const amount = Number(value);
-
-    if (!Number.isFinite(amount)) {
-        return "—";
-    }
-
-    try {
-        return new Intl.NumberFormat(undefined, {
-            style: "currency",
-            currency: currency || "USD"
-        }).format(amount);
-    } catch (error) {
-        return amount.toFixed(2) + " " + (currency || "USD");
-    }
-}
-
-
-function appendCells(row, values) {
-
-    values.forEach(value => {
-        const cell = document.createElement("td");
-        cell.textContent = value == null ? "—" : String(value);
-        row.appendChild(cell);
-    });
-}
-
-
-function showEmptyRow(tbody, message, columnCount) {
-
-    const row = document.createElement("tr");
-    const cell = document.createElement("td");
-    cell.colSpan = columnCount;
-    cell.textContent = message;
-    row.appendChild(cell);
-    tbody.replaceChildren(row);
-}
-
-
-async function loadIntelligence() {
-
-    const endpoints = ["overview", "cost", "causal", "anomalies"];
-    const results = await Promise.allSettled(
-        endpoints.map(endpoint => fetchIntelligence(endpoint))
-    );
-    const data = {};
-
-    results.forEach((result, index) => {
-        if (result.status === "fulfilled") {
-            data[endpoints[index]] = result.value;
-        }
-    });
-
-    if (data.overview) {
-        renderIntelligenceOverview(data.overview);
-    } else {
-        document.getElementById("intelligenceSource").textContent =
-            "Local analysis overview is unavailable.";
-        document.getElementById("overviewCostIncrease").textContent = "Unavailable";
-        document.getElementById("overviewCandidateCount").textContent = "Unavailable";
-    }
-
-    if (data.cost) {
-        renderCostAnalysis(data.cost);
-    } else {
-        document.getElementById("costStatus").textContent =
-            "Cost analysis is unavailable.";
-        showEmptyRow(document.getElementById("costServiceRows"), "No cost data available.", 6);
-    }
-
-    if (data.causal) {
-        renderCausalAnalysis(data.causal);
-    } else {
-        document.getElementById("causalStatus").textContent =
-            "Causal analysis is unavailable.";
-        showEmptyRow(document.getElementById("causalCandidateRows"), "No candidate data available.", 6);
-    }
-
-    if (data.anomalies) {
-        renderAnomalyScores(data.anomalies);
-    } else {
-        showEmptyRow(document.getElementById("anomalyRows"), "Anomaly scores are unavailable.", 3);
-    }
-}
-
-
-function renderIntelligenceOverview(overview) {
-
-    const currency = overview.currency || "USD";
-    document.getElementById("overviewCostIncrease").textContent =
-        formatCurrency(overview.total_cost_increase, currency);
-    document.getElementById("overviewCandidateCount").textContent =
-        overview.causal_candidate_count ?? "—";
-    document.getElementById("projectCount").textContent =
-        overview.projects ?? "—";
-    document.getElementById("cloudAccountCount").textContent =
-        overview.cloud_accounts ?? "—";
-    document.getElementById("intelligenceSource").textContent =
-        "Analysis status: " + (overview.analysis_status || "unknown") +
-        " · Source: " + (overview.data_source || "unspecified") +
-        " · Local/sample data is shared and not project-scoped.";
-}
-
-
-function renderCostAnalysis(cost) {
-
-    const currency = cost.currency || "USD";
-    document.getElementById("costStatus").textContent =
-        "Source: local analysis · Resource-based estimates; not provider billing.";
-    document.getElementById("totalCostIncrease").textContent =
-        formatCurrency(cost.total_cost_increase, currency);
-    document.getElementById("costModel").textContent =
-        cost.model || "Unspecified";
-
-    const rows = document.getElementById("costServiceRows");
-    rows.replaceChildren();
-    const services = cost.services || {};
-    const entries = Object.entries(services);
-
-    if (!entries.length) {
-        showEmptyRow(rows, "No service cost estimates available.", 6);
-        return;
-    }
-
-    entries.forEach(([service, values]) => {
-        const row = document.createElement("tr");
-        appendCells(row, [
-            service,
-            formatCurrency(values.baseline_cost, currency),
-            formatCurrency(values.current_cost, currency),
-            formatCurrency(values.cost_increase, currency),
-            values.cost_anomaly_score,
-            values.attribution_share == null
-                ? "—"
-                : (Number(values.attribution_share) * 100).toFixed(2) + "%"
-        ]);
-        rows.appendChild(row);
-    });
-}
-
-
-function renderCausalAnalysis(causal) {
-
-    const chain = causal.chain || {};
-    const chainServices = chain.causal_chain || [];
-    document.getElementById("causalStatus").textContent =
-        "Source: local analysis · Candidate inference only; not definitive causality.";
-    document.getElementById("causalChain").textContent =
-        chainServices.length ? chainServices.join(" → ") : "No candidate chain available.";
-    document.getElementById("causalSummary").textContent =
-        "Candidate root: " + (chain.candidate_root_cause || "—") +
-        " · Dependency depth: " + (chain.dependency_depth ?? "—");
-
-    const rows = document.getElementById("causalCandidateRows");
-    rows.replaceChildren();
-    const candidates = causal.candidates || [];
-
-    if (!candidates.length) {
-        showEmptyRow(rows, "No causal candidates available.", 6);
-        return;
-    }
-
-    candidates.forEach(candidate => {
-        const row = document.createElement("tr");
-        appendCells(row, [
-            candidate.cause_service,
-            candidate.affected_service,
-            candidate.dependency,
-            candidate.anomaly_strength,
-            candidate.propagation_strength,
-            candidate.causal_candidate_score
-        ]);
-        rows.appendChild(row);
-    });
-}
-
-
-function renderAnomalyScores(anomalies) {
-
-    const rows = document.getElementById("anomalyRows");
-    rows.replaceChildren();
-    const entries = Object.entries(anomalies || {});
-    let rowCount = 0;
-
-    entries.forEach(([service, metrics]) => {
-        Object.entries(metrics || {}).forEach(([metric, score]) => {
-            const row = document.createElement("tr");
-            appendCells(row, [service, metric, score]);
-            rows.appendChild(row);
-            rowCount += 1;
-        });
-    });
-
-    if (!rowCount) {
-        showEmptyRow(rows, "No anomaly scores available.", 3);
-    }
-}
-
-
-async function loadProjects() {
-
-    const response = await fetch(API_BASE + "/api/projects",
-        { headers }
-    );
-
-    if (!response.ok) {
-
-        document.getElementById("projectList").innerHTML =
-            '<p class="status">Unable to load projects.</p>';
-
-        return;
-    }
-
-    const projects = await response.json();
-
-    document.getElementById("projectCount").textContent =
-        projects.length;
-
-    const container =
-        document.getElementById("projectList");
-
-    container.innerHTML = "";
-
-    if (projects.length === 0) {
-
-        container.innerHTML =
-            '<p class="status">No projects yet.</p>';
-
-        return;
-    }
-
-    projects.forEach(project => {
-
-        const row =
-            document.createElement("div");
-
-        row.className = "project-row";
-
-        row.innerHTML =
-            "<strong>" +
-            project.name +
-            "</strong>" +
-            "<span>" +
-            project.slug +
-            "</span>" +
-            (project.description
-                ? "<p>" + project.description + "</p>"
-                : "");
-
-        container.appendChild(row);
-    });
-}
-
-
-async function createProject() {
-
-    const nameInput =
-        document.getElementById("projectName");
-
-    const descriptionInput =
-        document.getElementById("projectDescription");
-
-    const name =
-        nameInput.value.trim();
-
-    const description =
-        descriptionInput.value.trim();
-
-    if (!name) {
-
-        alert("Enter a project name.");
-
-        return;
-    }
-
-    const response = await fetch(API_BASE + "/api/projects",
-        {
-            method: "POST",
-            headers,
-
-            body: JSON.stringify({
-                name: name,
-                description: description || null
-            })
-        }
-    );
-
-    const data =
-        await response.json();
-
-    if (!response.ok) {
-
-        alert(
-            data.detail ||
-            "Unable to create project."
-        );
-
-        return;
-    }
-
-    nameInput.value = "";
-    descriptionInput.value = "";
-
-    await loadProjects();
-}
-
-
-function showPage(id, button) {
-
-    document
-        .querySelectorAll(".page")
-        .forEach(page => {
-
-            page.classList.add("hidden");
-
-        });
-
-    document
-        .getElementById(id)
-        .classList.remove("hidden");
-
-    document
-        .querySelectorAll(".nav button")
-        .forEach(item => {
-
-            item.classList.remove("active");
-
-        });
-
-    button.classList.add("active");
-
-    document.getElementById("pageTitle").textContent =
-        button.textContent.trim();
-}
-
-
-function logout() {
-
-    localStorage.removeItem("access_token");
-
-    window.location.href = "/";
-}
-
-
-loadWorkspace();
-
-</script>
-
+<script src="/assets/workspace.js"></script>
 <script src="/assets/cloud-accounts.js"></script>
 
 </body>

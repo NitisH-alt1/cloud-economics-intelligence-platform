@@ -1,21 +1,12 @@
-# Cloud Economics Intelligence Platform
+# Website
 
-## Product
+The FastAPI application in `web.app:app` serves the user-facing site on port `8090`.
 
-Cloud cost intelligence and causal candidate analysis for distributed cloud applications.
+| Route | Page |
+| --- | --- |
+| `/`, `/login`, `/signup` | Shared sign-in and organization signup page |
+| `/workspace` | Authenticated workspace shell and its project, account, cost, causal, anomaly, recommendation, and settings sections |
+| `/dashboard` | Redirects to `/workspace` |
+| `/health` | Website health response |
 
-## Documentation
-
-- Product overview
-- Architecture
-- Security
-- Privacy
-- Terms
-- API
-- Cloud integrations
-- Pricing
-- Deployment
-
-## Analytical limitation
-
-The platform performs temporal causal candidate analysis based on dependency, anomaly, propagation, and temporal evidence. It does not claim definitive causal proof.
+Browser assets are served from `/assets`. API requests go to the FastAPI application on port `8081` and use the bearer token stored by the sign-in flow. Workspace analysis currently uses project-scoped local demo estimates and included analyzer samples; it does not represent provider billing or validated cloud credentials.

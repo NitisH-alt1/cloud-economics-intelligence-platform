@@ -1,4 +1,6 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, status
+import re
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from database.db import get_db
@@ -36,9 +38,14 @@ def signup(
             detail="Email already registered.",
         )
 
-    organization = Organization(
-        name=request.organization_name,
-    )
+    organization_name = request.organization_name.strip()
+    base_slug = (re.sub(r"[^a-zA-Z0-9]+", "-", organization_name.lower()).strip("-") or "organization")[:90]
+    slug = base_slug
+    suffix = 2
+    while db.query(Organization.id).filter(Organization.slug == slug).first():
+        slug = f"{base_slug}-{suffix}"
+        suffix += 1
+    organization = Organization(name=organization_name, slug=slug)
 
     db.add(organization)
     db.flush()

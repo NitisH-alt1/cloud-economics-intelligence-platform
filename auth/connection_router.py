@@ -1,5 +1,3 @@
-﻿from datetime import datetime
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 
@@ -91,7 +89,6 @@ def create_connection(
             provider=provider,
             auth_method=auth_method,
             status="configured",
-            last_validated_at=datetime.utcnow(),
         )
 
         db.add(connection)

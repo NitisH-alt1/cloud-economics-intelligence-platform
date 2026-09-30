@@ -3,523 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Economics Intelligence Platform</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Inter, Arial, sans-serif;
-            background:
-                radial-gradient(circle at top right, #172554 0, transparent 35%),
-                #020617;
-            color: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            width: min(1100px, 94%);
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .brand h1 {
-            font-size: 48px;
-            line-height: 1.05;
-            margin: 0 0 20px;
-        }
-
-        .brand h1 span {
-            color: #60a5fa;
-        }
-
-        .brand p {
-            color: #94a3b8;
-            font-size: 18px;
-            line-height: 1.7;
-            max-width: 620px;
-        }
-
-        .features {
-            margin-top: 30px;
-            display: grid;
-            gap: 14px;
-        }
-
-        .feature {
-            padding: 14px 16px;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            background: rgba(15, 23, 42, 0.7);
-        }
-
-        .feature strong {
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .feature span {
-            color: #94a3b8;
-            font-size: 14px;
-        }
-
-        .card {
-            background: rgba(15, 23, 42, 0.94);
-            border: 1px solid #334155;
-            border-radius: 18px;
-            padding: 30px;
-            box-shadow: 0 25px 70px rgba(0,0,0,.35);
-        }
-
-        .tabs {
-            display: flex;
-            margin-bottom: 25px;
-            border-bottom: 1px solid #334155;
-        }
-
-        .tab {
-            flex: 1;
-            border: 0;
-            background: transparent;
-            color: #94a3b8;
-            padding: 12px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        .tab.active {
-            color: #60a5fa;
-            border-bottom: 2px solid #60a5fa;
-        }
-
-        h2 {
-            margin-top: 0;
-        }
-
-        label {
-            display: block;
-            margin: 15px 0 7px;
-            color: #cbd5e1;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 13px;
-            border-radius: 9px;
-            border: 1px solid #334155;
-            background: #020617;
-            color: white;
-            outline: none;
-        }
-
-        input:focus {
-            border-color: #60a5fa;
-        }
-
-        button.submit {
-            width: 100%;
-            margin-top: 22px;
-            padding: 13px;
-            border: 0;
-            border-radius: 9px;
-            background: #2563eb;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        button.submit:hover {
-            background: #1d4ed8;
-        }
-
-        .message {
-            margin-top: 15px;
-            padding: 11px;
-            border-radius: 8px;
-            display: none;
-            font-size: 14px;
-        }
-
-        .success {
-            background: #052e16;
-            color: #86efac;
-        }
-
-        .error {
-            background: #450a0a;
-            color: #fca5a5;
-        }
-
-        .dashboard {
-            display: none;
-        }
-
-        .dashboard-card {
-            padding: 22px;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            background: #020617;
-            margin-top: 15px;
-        }
-
-        @media (max-width: 850px) {
-            .container {
-                grid-template-columns: 1fr;
-                padding: 30px 0;
-            }
-
-            .brand h1 {
-                font-size: 36px;
-            }
-        }
-    </style>
+    <title>Cloud Economics Intelligence Platform | Sign in</title>
+    <link rel="stylesheet" href="/assets/platform.css">
 </head>
 
-<body>
+<body class="auth-page">
 
-<div class="container">
+<main class="container auth-layout">
 
-    <section class="brand">
+    <section class="brand auth-brand" aria-labelledby="productTitle">
+        <div class="brand-lockup">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6.8 17.2h10.1a3.1 3.1 0 0 0 .4-6.2A5.4 5.4 0 0 0 7 9.8a3.7 3.7 0 0 0-.2 7.4Z" stroke="currentColor" stroke-width="1.7"/><path d="m9 14.8 2-2 1.5 1.5L15.8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>Cloud Economics Intelligence</span>
+        </div>
+        <p class="eyebrow">FinOps · Service observability · Causal evidence</p>
         <h1>
-            Cloud Economics<br>
-            <span>Intelligence Platform</span>
+            Understand cost changes across <span>cloud services.</span>
         </h1>
 
-        <p>
-            Understand cloud cost increases by connecting
-            infrastructure cost, application telemetry,
-            service dependencies and causal candidate evidence.
+        <p class="auth-description">
+            Review project-level cost estimates alongside telemetry signals and service dependency evidence. Analysis identifies candidates for investigation; it does not prove causality.
         </p>
 
-        <div class="features">
-            <div class="feature">
+        <div class="capability-grid">
+            <div class="capability">
                 <strong>Cost Intelligence</strong>
-                <span>Identify where cloud spending is increasing.</span>
+                <span>Compare local demo estimates across service and time periods.</span>
             </div>
 
-            <div class="feature">
+            <div class="capability">
                 <strong>Causal Candidate Analysis</strong>
-                <span>Trace dependency and temporal evidence across services.</span>
+                <span>Inspect dependency and anomaly evidence across a candidate chain.</span>
             </div>
 
-            <div class="feature">
-                <strong>Cost Attribution</strong>
-                <span>Attribute incremental cost across affected services.</span>
+            <div class="capability">
+                <strong>Organization Workspaces</strong>
+                <span>Keep projects and cloud account records scoped to an organization.</span>
+            </div>
+
+            <div class="capability">
+                <strong>Observability Stack</strong>
+                <span>Local services use OpenTelemetry with Prometheus and Jaeger.</span>
             </div>
         </div>
+        <div class="sample-path" aria-label="Example dependency chain from included sample data">
+            <div class="sample-path-label">Example dependency chain · sample data</div>
+            <div class="sample-path-track" aria-hidden="true"><span class="path-node">payment</span><span>→</span><span class="path-node">inventory</span><span>→</span><span class="path-node">checkout</span></div>
+            <p class="sample-note">Model-derived candidate path. Not live telemetry.</p>
+        </div>
+        <div class="stack-label">Application stack</div>
+        <ul class="stack-tags" aria-label="Platform technologies">
+            <li>FastAPI</li><li>PostgreSQL</li><li>Docker</li><li>OpenTelemetry</li><li>Prometheus</li><li>Jaeger</li>
+        </ul>
     </section>
 
-    <section class="card">
+    <section class="card auth-card" aria-label="Account access">
 
         <div id="authBox">
 
-            <div class="tabs">
-                <button class="tab active" onclick="showLogin()">
+            <div class="tabs auth-tabs" role="tablist" aria-label="Account access options">
+                <button type="button" class="tab auth-tab active" id="loginTab" role="tab" aria-selected="true" aria-controls="loginForm" tabindex="0" onclick="showLogin()">
                     Login
                 </button>
 
-                <button class="tab" onclick="showSignup()">
+                <button type="button" class="tab auth-tab" id="signupTab" role="tab" aria-selected="false" aria-controls="signupForm" tabindex="-1" onclick="showSignup()">
                     Create account
                 </button>
             </div>
 
-            <div id="loginForm">
-                <h2>Welcome back</h2>
+            <form id="loginForm" class="auth-form" role="tabpanel" aria-labelledby="loginTab">
+                <h2>Sign in to your workspace</h2>
+                <p class="auth-subtitle">Use your organization account to continue.</p>
 
-                <label>Email</label>
+                <label for="loginEmail">Work email</label>
                 <input id="loginEmail"
+                       name="email"
                        type="email"
+                       autocomplete="username"
+                       maxlength="254"
+                       required
                        placeholder="you@company.com">
 
-                <label>Password</label>
+                <label for="loginPassword">Password</label>
                 <input id="loginPassword"
+                       name="password"
                        type="password"
+                       autocomplete="current-password"
+                       required
                        placeholder="••••••••">
 
-                <button class="submit" onclick="login()">
+                <button class="submit primary-action" type="submit">
                     Login
                 </button>
 
-                <div id="loginMessage" class="message"></div>
-            </div>
+                <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
+            </form>
 
-            <div id="signupForm" style="display:none">
-                <h2>Create your workspace</h2>
+            <form id="signupForm" class="auth-form" role="tabpanel" aria-labelledby="signupTab" hidden>
+                <h2>Create an organization workspace</h2>
+                <p class="auth-subtitle">Set up an account for your team.</p>
 
-                <label>Full name</label>
+                <label for="signupName">Full name</label>
                 <input id="signupName"
+                       name="full_name"
                        type="text"
+                       autocomplete="name"
+                       minlength="2"
+                       maxlength="120"
+                       required
                        placeholder="Your name">
 
-                <label>Work email</label>
+                <label for="signupEmail">Work email</label>
                 <input id="signupEmail"
+                       name="email"
                        type="email"
+                       autocomplete="email"
+                       maxlength="254"
+                       required
                        placeholder="you@company.com">
 
-                <label>Password</label>
+                <label for="signupPassword">Password</label>
                 <input id="signupPassword"
+                       name="password"
                        type="password"
+                       autocomplete="new-password"
+                       minlength="8"
+                       maxlength="128"
+                       required
                        placeholder="Create a password">
 
-                <label>Organization</label>
+                <label for="signupOrganization">Organization</label>
                 <input id="signupOrganization"
+                       name="organization_name"
                        type="text"
+                       autocomplete="organization"
+                       minlength="2"
+                       maxlength="120"
+                       required
                        placeholder="Company or team name">
 
-                <button class="submit" onclick="signup()">
+                <button class="submit primary-action" type="submit">
                     Create account
                 </button>
 
-                <div id="signupMessage" class="message"></div>
-            </div>
+                <div id="signupMessage" class="message" role="status" aria-live="polite"></div>
+            </form>
 
         </div>
 
-        <div id="dashboard" class="dashboard">
-
-            <h2>Cloud Economics Workspace</h2>
-
-            <p id="welcomeText"></p>
-
-            <div class="dashboard-card">
-                <strong>Organization</strong>
-                <p id="organizationText"></p>
-            </div>
-
-            <div class="dashboard-card">
-                <strong>Workspace status</strong>
-                <p>Authentication and tenant isolation are active.</p>
-            </div>
-
-            <button class="submit" onclick="logout()">
-                Sign out
-            </button>
-
-        </div>
+        <p class="auth-footnote">Workspace analysis uses local demo estimates until verified provider ingestion is available.</p>
 
     </section>
 
-</div>
+</main>
 
+<script src="/assets/api.js"></script>
 <script>
-
-const API = "http://127.0.0.1:8081";
-
-function showLogin() {
-    document.getElementById("loginForm").style.display = "block";
-    document.getElementById("signupForm").style.display = "none";
-
-    document.querySelectorAll(".tab")[0].classList.add("active");
-    document.querySelectorAll(".tab")[1].classList.remove("active");
+function setAuthMode(mode) {
+    const signupMode = mode === "signup";
+    document.getElementById("loginForm").hidden = signupMode;
+    document.getElementById("signupForm").hidden = !signupMode;
+    document.getElementById("loginTab").classList.toggle("active", !signupMode);
+    document.getElementById("signupTab").classList.toggle("active", signupMode);
+    document.getElementById("loginTab").setAttribute("aria-selected", String(!signupMode));
+    document.getElementById("signupTab").setAttribute("aria-selected", String(signupMode));
+    document.getElementById("loginTab").tabIndex = signupMode ? -1 : 0;
+    document.getElementById("signupTab").tabIndex = signupMode ? 0 : -1;
 }
 
-function showSignup() {
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("signupForm").style.display = "block";
+function showLogin() { setAuthMode("login"); }
+function showSignup() { setAuthMode("signup"); }
 
-    document.querySelectorAll(".tab")[0].classList.remove("active");
-    document.querySelectorAll(".tab")[1].classList.add("active");
-}
-
-function showMessage(id, text, success=false) {
+function showMessage(id, text) {
     const element = document.getElementById(id);
-
     element.textContent = text;
-    element.style.display = "block";
-
-    element.className =
-        "message " + (success ? "success" : "error");
+    element.className = "message error";
 }
 
-async function signup() {
-
-    const body = {
-        email: document.getElementById("signupEmail").value,
-        password: document.getElementById("signupPassword").value,
-        full_name: document.getElementById("signupName").value,
-        organization_name:
-            document.getElementById("signupOrganization").value
-    };
-
+async function submitAuth(event, signupMode) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const button = form.querySelector("button[type='submit']");
+    const message = form.querySelector(".message");
+    const body = signupMode
+        ? {full_name:form.elements.full_name.value.trim(), email:form.elements.email.value.trim(), password:form.elements.password.value, organization_name:form.elements.organization_name.value.trim()}
+        : {email:form.elements.email.value.trim(), password:form.elements.password.value};
+    button.disabled = true;
+    button.textContent = signupMode ? "Creating workspace…" : "Signing in…";
+    message.textContent = "";
+    message.className = "message";
     try {
-
-        const response = await fetch(
-            "http://127.0.0.1:8081/api/auth/signup",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                data.detail || "Signup failed."
-            );
-        }
-
-        localStorage.setItem(
-            "access_token",
-            data.access_token
-        );
-
-        showWorkspace(data);
-
+        const path = signupMode ? "/api/auth/signup" : "/api/auth/login";
+        const response = await CEAApi.request(path, {method:"POST", body:JSON.stringify(body)});
+        const data = await CEAApi.readJson(response);
+        if (!response.ok) throw new Error(CEAApi.errorMessage(data, signupMode ? "Unable to create account." : "Unable to sign in."));
+        if (!data || typeof data.access_token !== "string" || !data.access_token) throw new Error("The authentication response did not include an access token.");
+        localStorage.setItem("access_token", data.access_token);
+        button.textContent = "Opening workspace…";
+        window.location.assign("/workspace");
     } catch (error) {
-
-        showMessage(
-            "signupMessage",
-            error.message
-        );
+        showMessage(signupMode ? "signupMessage" : "loginMessage", error.message || "Unable to authenticate.");
+        button.disabled = false;
+        button.textContent = signupMode ? "Create account" : "Login";
     }
 }
 
-async function login() {
+document.getElementById("loginForm").addEventListener("submit", event => submitAuth(event, false));
+document.getElementById("signupForm").addEventListener("submit", event => submitAuth(event, true));
+document.querySelector(".auth-tabs").addEventListener("keydown", event => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const tabs = [document.getElementById("loginTab"), document.getElementById("signupTab")];
+    const current = tabs.findIndex(tab => tab === document.activeElement);
+    const next = event.key === "Home" ? 0
+        : event.key === "End" ? tabs.length - 1
+        : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    const mode = next === 1 ? "signup" : "login";
+    const tab = document.getElementById(mode === "signup" ? "signupTab" : "loginTab");
+    tab.focus();
+    setAuthMode(mode);
+});
 
-    const body = {
-        email: document.getElementById("loginEmail").value,
-        password: document.getElementById("loginPassword").value
-    };
-
-    try {
-
-        const response = await fetch(
-            "http://127.0.0.1:8081/api/auth/login",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                data.detail || "Login failed."
-            );
-        }
-
-        localStorage.setItem(
-            "access_token",
-            data.access_token
-        );
-
-        showWorkspace(data);
-
-    } catch (error) {
-
-        showMessage(
-            "loginMessage",
-            error.message
-        );
-    }
-}
-
-async function showWorkspace(authData) {
-
-    const token = authData.access_token;
-
-    const response = await fetch(
-        "http://127.0.0.1:8081/api/account/me",
-        {
-            headers: {
-                "Authorization":
-                    "Bearer " + token
-            }
-        }
-    );
-
-    const account = await response.json();
-
-    if (!response.ok) {
-        throw new Error(
-            account.detail || "Unable to load account."
-        );
-    }
-
-    document.getElementById("authBox").style.display = "none";
-    window.location.href = "/workspace";
-
-    document.getElementById("welcomeText").textContent =
-        "Welcome, " + account.full_name + ".";
-
-    document.getElementById("organizationText").textContent =
-        account.organization_id +
-        " · " +
-        account.role;
-}
-
-function logout() {
-
-    localStorage.removeItem("access_token");
-
-    document.getElementById("dashboard").style.display = "none";
-    document.getElementById("authBox").style.display = "block";
-
-    showLogin();
-}
-
-async function restoreSession() {
-
-    const token = localStorage.getItem("access_token");
-
-    if (!token) {
-        return;
-    }
-
-    try {
-
-        const response = await fetch(
-            "http://127.0.0.1:8081/api/account/me",
-            {
-                headers: {
-                    "Authorization":
-                        "Bearer " + token
-                }
-            }
-        );
-
-        if (!response.ok) {
-            localStorage.removeItem("access_token");
-            return;
-        }
-
-        const account = await response.json();
-
-        document.getElementById("authBox").style.display = "none";
-        window.location.href = "/workspace";
-
-        document.getElementById("welcomeText").textContent =
-            "Welcome, " + account.full_name + ".";
-
-        document.getElementById("organizationText").textContent =
-            account.organization_id +
-            " · " +
-            account.role;
-
-    } catch {
-        localStorage.removeItem("access_token");
-    }
-}
-
-restoreSession();
-
+if (localStorage.getItem("access_token")) window.location.replace("/workspace");
 </script>
 
 </body>

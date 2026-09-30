@@ -4,10 +4,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg2://cea_admin:cea_local_password@localhost:5433/cloud_economics",
-)
+APP_ENV = os.getenv("APP_ENV", "development").strip().lower()
+DATABASE_URL = os.getenv("DATABASE_URL")
+if APP_ENV == "production" and not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL must be set when APP_ENV=production.")
+if not DATABASE_URL:
+    DATABASE_URL = "postgresql+psycopg2://cea_admin:cea_local_password@localhost:5433/cloud_economics"
 
 
 class Base(DeclarativeBase):

@@ -4,9 +4,9 @@ services:
     image: jaegertracing/all-in-one:latest
     container_name: cca-jaeger
     ports:
-      - "16686:16686"
-      - "4317:4317"
-      - "4318:4318"
+      - "127.0.0.1:16686:16686"
+      - "127.0.0.1:4317:4317"
+      - "127.0.0.1:4318:4318"
     networks:
       - cca-network
 
@@ -29,7 +29,7 @@ services:
     image: prom/prometheus:latest
     container_name: cca-prometheus
     ports:
-      - "9090:9090"
+      - "127.0.0.1:9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
@@ -49,7 +49,7 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
     ports:
-      - "8003:8003"
+      - "127.0.0.1:8003:8003"
     depends_on:
       - otel-collector
     networks:
@@ -66,7 +66,7 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
     ports:
-      - "8002:8002"
+      - "127.0.0.1:8002:8002"
     depends_on:
       - payment
       - otel-collector
@@ -84,7 +84,7 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
     ports:
-      - "8001:8001"
+      - "127.0.0.1:8001:8001"
     depends_on:
       - inventory
       - otel-collector
