@@ -15,6 +15,7 @@ psutil
 prometheus-fastapi-instrumentator
 SQLAlchemy
 psycopg2-binary
+psycopg[binary]
 python-jose[cryptography]
 passlib
 python-multipart
